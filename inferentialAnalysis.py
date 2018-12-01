@@ -19,11 +19,11 @@ from statsmodels.formula.api import ols
 
 #(c) Over the last 10 years, have there been more hikers on average in Estes Park in the spring or summer? 
 
-#(Answer c) - Ind var= Spring/Summer - categorical, Dep var=Ave number of hikers in park - continious. Use 
+#(Answer c) - Ind var= Spring/Summer - categorical, Dep var=Ave number of hikers in park - continious. Use a T-test
 
 #(d) Does a student's home state predict their highest degree level?
 
-#(Answer d) - Ind var=Home state - categorical, Dep var=Degree level - categorical. Use
+#(Answer d) - Ind var=Home state - categorical, Dep var=Degree level - categorical. Use T-test
 
 
 # Extract the data. Return both the raw data and dataframe
@@ -68,10 +68,31 @@ print("Do gender and department correlate with admissions. Is admissions bias?")
 evenmoreComplex = 'Admitted ~ C(Department) + C(Gender)'
 runAnova(rawData, evenmoreComplex)
 
+#2. You've been given some starter code in class that shows you how to set up ANOVAs and Student's T-Tests in addition to the regression code from the last few weeks. Now, use this code to more deeply explore the simpsons_paradox.csv dataset. Compute new dependent variables that shows the percentage of students admitted and rejected for each row in the CSV. Use those rows to try to understand what significant correlations exist in this data. What factors appear to contribute most heavily to admissions? Do you think the admissions process is biased based on the available data? Why or why not?
+
+#(2:Compute new dependent variables that shows the percentage of students admitted and rejected for each row in the CSV.)
+
 #iv = department,  dv = % admitted, % rejected 
 print("Do gender and department correlate with admissions. Is admissions bias?")
 evenmoreComplex = 'Department ~ C(Admitted)  + C(Rejected)'
 runAnova(rawData, evenmoreComplex)
 
+#(2:Use those rows to try to understand what significant correlations exist in this data. What factors appear to contribute most heavily to admissions? Do you think the admissions process is biased based on the available data? Why or why not?
+#(Answer 2) 
 
-#2. You've been given some starter code in class that shows you how to set up ANOVAs and Student's T-Tests in addition to the regression code from the last few weeks. Now, use this code to more deeply explore the simpsons_paradox.csv dataset. Compute new dependent variables that shows the percentage of students admitted and rejected for each row in the CSV. Use those rows to try to understand what significant correlations exist in this data. What factors appear to contribute most heavily to admissions? Do you think the admissions process is biased based on the available data? Why or why not?
+
+#Monday (11.26)
+#3. There's a data quality issue hiding in the admissions dataset from Monday. Correct this issue and compare your new results. How are they the same? How do they differ?
+
+#(3 Answer) The data quality issues was that the data tests were only taking into acount the subset of admitted and the subset of rejected seperatly. You would need to combine the total number of both admitted and rejected applicants then use that sum to inspect the acceptance rate. To do so you would add the both sides to get total number of applicants then divide the admitted by total applicant to find the proper acceptance rate. The old results and clean results are the same in..... They differ because in the....
+
+df_inspect= pd.read_csv('simpsons_paradox.csv')
+print(df_inspect)
+
+df_inspect['Total Applicants'] = df_inspect['Admitted']+df_inspect['Rejected']
+df_inspect['Acceptance Rate'] = df_inspect['Admitted']/df_inspect['Total Applicants']
+print(df_inspect)
+
+df_inspect.to_csv('Simpsons_Paradox_Inspected_Cleaned.csv')
+
+#4. The data also represents an example of Simpson's Paradox. Use whatever visualization tools you'd like to illustrate the two possible perspectives. Make sure to include a screenshot of each and explain the perspective shown in each.
